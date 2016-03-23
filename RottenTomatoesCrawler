@@ -5,13 +5,12 @@ import time
 
 startTime = time.time()
 
-
-
-
 with open('movieList.csv', 'rb') as csvfile:
-    mylist = []
+
     spamreader = csv.reader(csvfile, delimiter='\n', quotechar='|')
     for row in spamreader:
+        mylist = []
+        loopStartTime = time.time()
         movieString = row[0]
         pageNumber = ""
         x=0
@@ -34,9 +33,9 @@ with open('movieList.csv', 'rb') as csvfile:
 
 
         print mylist.__len__()
-
+        print("Time taken is %s seconds" % (time.time()-loopStartTime))
         with open(movieString+'.csv', 'wb') as csvfile:
             spamwriter = csv.writer(csvfile, delimiter='\n')
             spamwriter.writerow(mylist)
 
-print("Time taken is %s seconds" % (time.time()-startTime))
+print("Total Time taken is %s seconds" % (time.time()-startTime))
