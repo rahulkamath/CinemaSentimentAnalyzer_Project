@@ -13,17 +13,22 @@ for subdir, dirs, files in os.walk(rootdir):
     for file in files:
 
         with open(rootdir+file, 'rb') as csvfile:
-            commentSentimentCount = OrderedDict([("name",""),("positive",0), ("negative", 0), ("neutral", 0)])
+            commentSentimentCount = OrderedDict([("name",""),("great",0),("good",0), ("average", 0),("poor",0), ("awful", 0)])
             spamreader = csv.reader(csvfile, delimiter='\n', quotechar='|')
             commentSentimentCount['name']=file.replace(".csv","")
             for row in spamreader:
                 blob = TextBlob(row[0].decode('utf-8'))
-                if blob.sentiment.polarity>=0.1:
-                    commentSentimentCount['positive'] += 1
-                elif blob.sentiment.polarity<0:
-                    commentSentimentCount['negative'] += 1
+                sentimentScore = blob.sentiment.polarity
+                if sentimentScore>=0.6:
+                    commentSentimentCount['great'] += 1
+                elif sentimentScore<0.6 and sentimentScore>=0.2:
+                    commentSentimentCount['good'] += 1
+                elif sentimentScore<0.2 and sentimentScore>=-0.2:
+                    commentSentimentCount['average'] += 1
+                elif sentimentScore <-0.2 and sentimentScore >= -0.6:
+                    commentSentimentCount['poor'] += 1
                 else:
-                    commentSentimentCount['neutral'] +=1
+                    commentSentimentCount['awful'] +=1
             keys, values = zip(*commentSentimentCount.items())
             #print ','.join(keys)
             resultSet.append(','.join([str(i) for i in values]))
