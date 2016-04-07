@@ -25,6 +25,8 @@ while True:
             break
         for i in range(0, count):
             mylist.append(soup.findAll("div", class_="user_review")[i].contents[2].encode('utf-8').strip())
+        if mylist.__len__()>=2000:
+            break
         pageNumber = "page=%d" % x
         x = x + 1
 
