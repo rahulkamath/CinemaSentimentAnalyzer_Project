@@ -23,7 +23,8 @@ with open('test.csv', 'rb') as csvfile:
                 if count == 0:
                     break
                 for i in range(0,count):
-                    fullStr = soup.findAll("div",  id="tn15content")[i].contents[11].encode('utf-8').strip()
+                    #print(soup.findAll("div", id="tn15content")[i])
+                    fullStr = soup.findAll("div",  id="tn15content")[i].encode('utf-8').strip()
                     fullStr = fullStr.replace('<b>*** This review may contain spoilers ***</b>', ' ')
                     fullStr = fullStr.replace('Add another review', ' ')
                     fullStr = fullStr.replace('"', ' ')
